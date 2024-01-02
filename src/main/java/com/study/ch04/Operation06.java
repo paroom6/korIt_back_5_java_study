@@ -18,7 +18,7 @@ public class Operation06 {
         System.out.println(name==null);//null체크 가능,
         //boolean nn = null;
         Boolean n = null;//Boolean은 null을 받을 수 있다.
-
+        System.out.println("테스트 코드 작성");
 
 
 

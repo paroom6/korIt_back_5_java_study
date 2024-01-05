@@ -5,7 +5,7 @@ public class GameServise {
         if(str == null){
             return true;
         }
-        return str.isEmpty();
+        return str.isBlank() ;
     }
     boolean isAdult(int age){
         if(age == 0 ||age <19){

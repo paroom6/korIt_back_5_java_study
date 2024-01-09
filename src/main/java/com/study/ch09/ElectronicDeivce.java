@@ -2,6 +2,7 @@ package com.study.ch09;
 
 public class ElectronicDeivce {
     boolean powerState;
+
     void setPowerOn() {
         powerState = true;
     }

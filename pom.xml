@@ -8,6 +8,18 @@
     <artifactId>java_study</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <dependencies>
+        <!-- <>로 열고 </>로 닫는다. -->
+        <!-- 플러그인 설치 필요 -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.30</version>
+            <scope>provided</scope>
+        </dependency>
+
+    </dependencies>
+
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>

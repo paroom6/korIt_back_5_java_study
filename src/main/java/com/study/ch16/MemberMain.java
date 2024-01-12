@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MemberMain {
-    public static int indexCheck(ArrayList<Member> members, String name) {
+    private static ArrayList<Member> members = new ArrayList<>();
+    public static int indexCheck( String name) { //member 자체를 리턴하는 편이 효율이 좋다.
         int index = -1;
         for (int i = 0; i < members.size(); i++) {
             if (members.get(i).getName().equals(name)) {
@@ -13,7 +14,8 @@ public class MemberMain {
         }
         return index;
     }
-    public static boolean NonMem(int index) {
+
+    public static boolean NonMem(int index) { //메서드로 빼야했었나? continue; 문이라서 메서드에서 작동 불가, 불가피하게 한번 더 작성해야한다.
         boolean nonMem = (index == -1);
         if (nonMem){
             System.out.println("해당 이름의 회원은 존재하지 않습니다.");
@@ -22,9 +24,27 @@ public class MemberMain {
         return nonMem;
     }
 
+    public static Member findMemberByName(String name) {
+  //      Member findMember = null; //재사용 하는 경우 재사용할 때 마다 초기화 필요
+        for (Member member : members) {
+            if(member.getName().equals(name)) {
+                return member;
+            }
+        }
+        return null;
+    }
+
+    public static String inputSearchName(String label) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.printf("[ 회원 주소 %s하기 ]\n", label);
+        System.out.printf("%s 할 회원의 이름을 입력하세요 >> ", label);
+        return scanner.nextLine();
+    }
+
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        ArrayList<Member> members = new ArrayList<>();
+
         String selectedMenu = null;
 
         while(true) {
@@ -62,17 +82,17 @@ public class MemberMain {
                 * 이름 >> 조성이
                 * << 수정이 완료되었습니다. >>
                 * */
-                System.out.println("[ 회원 이름 수정하기 ]");
-                System.out.print("수정 할 회원의 이름을 입력하세요 >> ");
-                String name = scanner.nextLine();
-                int index = indexCheck(members, name);
-                if(NonMem(index)){
+                String name = inputSearchName("수정");
+                Member findMember = findMemberByName(name);
+                if(findMember == null){
+                    System.out.println("해당 이름의 회원은 존재하지 않습니다.");
                     continue;
                 }
                 System.out.print("이름 >> ");
                 String newName = scanner.nextLine();
-                members.get(index).setName(newName);
+                findMember.setName(newName);
                 System.out.println("<< 수정이 완료되었습니다. >>");
+
             } else if ("3".equals(selectedMenu)) {
                 /*
                  * [ 회원 주소 수정하기 ]
@@ -80,17 +100,17 @@ public class MemberMain {
                  * 주소 >> 서울 용산구
                  * << 수정이 완료되었습니다. >>
                  * */
-                System.out.println("[ 회원 주소 수정하기 ]");
-                System.out.print("수정 할 회원의 이름을 입력하세요 >> ");
-                String name = scanner.nextLine();
-                int index = indexCheck(members, name);
-                if(NonMem(index)){
+                String name = inputSearchName("수정");
+                Member findMember = findMemberByName(name);
+                if(findMember == null){
+                    System.out.println("해당 이름의 회원은 존재하지 않습니다.");
                     continue;
                 }
                 System.out.print("주소 >> ");
                 String newAddress = scanner.nextLine();
-                members.get(index).setAddress(newAddress);
+                findMember.setAddress(newAddress);
                 System.out.println("<< 수정이 완료되었습니다. >>");
+
             } else if ("4".equals(selectedMenu)) {
                 /*
                  * [ 회원 이름으로 조회하기 ]
@@ -98,14 +118,14 @@ public class MemberMain {
                  * Member 객체 toString();
                  * << 조회가 완료되었습니다. >>
                  * */
-                System.out.println("[ 회원 조회하기 ]");
-                System.out.print("조회 할 회원의 이름을 입력하세요 >> ");
-                String name = scanner.nextLine();
-                int index = indexCheck(members, name);
-                if(NonMem(index)){
+                String name = inputSearchName("조회");
+                //int index = indexCheck(name);
+                Member findMember = findMemberByName(name);
+                if(findMember == null){
+                    System.out.println("해당 이름의 회원은 존재하지 않습니다.");
                     continue;
                 }
-                System.out.println(members.get(index));
+                System.out.println(findMember);
                 System.out.println("<< 조회가 완료되었습니다. >>");
             } else if ("5".equals(selectedMenu)) {
                 /*
@@ -126,15 +146,20 @@ public class MemberMain {
                  * 삭제된 Member 객체 toString(); // remove 시 삭제한 객체 리턴
                  * << 삭제가 완료되었습니다. >>
                  * */
-                System.out.println("[ 회원 이름으로 삭제하기 ]");
-                System.out.print("삭제 할 회원의 이름을 입력하세요 >> ");
-                String name = scanner.nextLine();
-                int index = indexCheck(members, name);
-                if(NonMem(index)){
+                String name = inputSearchName("삭제");
+                Member findMember = findMemberByName(name);
+                if (findMember == null) {
+                    System.out.println("해당 이름의 회원은 존재하지 않습니다.");
                     continue;
                 }
-                Member member = members.remove(index);
-                System.out.println(member);
+                members.remove(findMember);
+                System.out.println(findMember);
+//                int index = indexCheck(name);
+//                if(NonMem(index)){
+//                    continue;
+//                }
+//                Member member = members.remove(index);
+//                System.out.println(member);
                 System.out.println("<< 삭제가 완료되었습니다. >>");
 
             } else if("q".equalsIgnoreCase(selectedMenu)) {
